@@ -6,7 +6,7 @@ const TaskRow = ({ task, index, refetch }) => {
     const { _id, taskName, description } = task
 
     const taskCompleteHandle = async () => {
-        const { data } = await axiosPrivate.patch(`http://localhost:5000/task/${_id}`)
+        const { data } = await axiosPrivate.patch(`https://aqueous-spire-02615.herokuapp.com/task/${_id}`)
         if (data.success) {
             refetch()
             toast.success(data.message)
@@ -14,7 +14,7 @@ const TaskRow = ({ task, index, refetch }) => {
     }
 
     const taskDeleteHandle = async () => {
-        const { data } = await axiosPrivate.delete(`http://localhost:5000/task/${_id}`)
+        const { data } = await axiosPrivate.delete(`https://aqueous-spire-02615.herokuapp.com/task/${_id}`)
         if (data.success) {
             refetch()
             toast.success(data.message)

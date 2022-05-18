@@ -23,7 +23,7 @@ const AddTask = () => {
         const email = user?.email
         if (email) {
             const taskInfo = { ...task, email }
-            const { data } = await axiosPrivate.post('http://localhost:5000/task', taskInfo)
+            const { data } = await axiosPrivate.post('https://aqueous-spire-02615.herokuapp.com/task', taskInfo)
             if (data.success) {
                 toast.success(data.message, { toastId: 'success' })
             }

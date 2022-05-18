@@ -6,7 +6,7 @@ import TaskRow from './TaskRow'
 
 const MyTask = () => {
     const getMyTask = async () => {
-        const { data } = await axiosPrivate.get('http://localhost:5000/task')
+        const { data } = await axiosPrivate.get('https://aqueous-spire-02615.herokuapp.com/task')
         return data
     }
 

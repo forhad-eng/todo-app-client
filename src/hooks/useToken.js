@@ -8,7 +8,7 @@ const useToken = user => {
         const getToken = async () => {
             const email = user?.user?.email
             if (email) {
-                const { data } = await axios.put(`http://localhost:5000/user/${email}`, {
+                const { data } = await axios.put(`https://aqueous-spire-02615.herokuapp.com/user/${email}`, {
                     name: user.user.displayName,
                     email: email
                 })
