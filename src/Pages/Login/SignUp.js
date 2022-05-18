@@ -21,7 +21,7 @@ const SignUp = () => {
 
     let errorMessage
     if (eErr || gErr || upErr) {
-        errorMessage = <p>{eErr?.message || gErr?.message || upErr?.message}</p>
+        errorMessage = <p className='text-red-500'>{eErr?.message || gErr?.message || upErr?.message}</p>
     }
 
     if (token) {

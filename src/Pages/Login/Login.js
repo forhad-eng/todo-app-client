@@ -1,16 +1,42 @@
 import React from 'react'
+import { useSignInWithEmailAndPassword, useSignInWithGoogle } from 'react-firebase-hooks/auth'
 import { useForm } from 'react-hook-form'
-import { Link } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { auth } from '../../Firebase/firebase.init'
+import useToken from '../../hooks/useToken'
+import LoadingSpinner from '../Shared/LoadingSpinner'
 
 const Login = () => {
-
-
+    const [signInWithEmailAndPassword, eUser, eLoading, eErr] = useSignInWithEmailAndPassword(auth)
+    const [signInWithGoogle, gUser, gLoading, gErr] = useSignInWithGoogle(auth)
+    const [token] = useToken(eUser || gUser)
     const {
         register,
         handleSubmit,
-        formState: { errors }
+        formState: { errors },
+        reset
     } = useForm()
-    const onSubmit = data => console.log(data)
+    const navigate = useNavigate()
+    const location = useLocation()
+    const from = location?.state?.from?.pathname || '/'
+
+    let errorMessage
+    if (eErr || gErr) {
+        errorMessage = <p className='text-red-500'>{eErr?.message || gErr?.message}</p>
+    }
+
+    if (token) {
+        navigate(from, { replace: true })
+    }
+
+    if (eLoading || gLoading) {
+        return <LoadingSpinner />
+    }
+
+    const onSubmit = async data => {
+        await signInWithEmailAndPassword(data.email, data.password)
+        reset()
+    }
 
     return (
         <div class="lg:w-1/2 mx-auto lg:max-w-md rounded-lg shadow-2xl bg-base-100 mt-14">
@@ -58,6 +84,7 @@ const Login = () => {
                             </Link>
                         </label>
                     </div>
+                    {errorMessage}
                     <div class="form-control">
                         <button class="btn btn-primary">Login</button>
                     </div>
@@ -72,7 +99,9 @@ const Login = () => {
                 </form>
                 <div class="divider">OR</div>
                 <div class="form-control">
-                    <button class="btn btn-accent">Continue with Google</button>
+                    <button onClick={() => signInWithGoogle()} class="btn btn-accent">
+                        Continue with Google
+                    </button>
                 </div>
             </div>
         </div>
