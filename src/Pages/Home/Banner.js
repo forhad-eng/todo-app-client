@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import todo from '../../assets/todo-illustrator.jpg'
 
 const Banner = () => {
@@ -9,7 +10,9 @@ const Banner = () => {
                 <div className="lg:w-1/2">
                     <h1 class="text-5xl font-bold">My ToDo App</h1>
                     <p class="py-6">Keep your activities smooth with My ToDo.</p>
-                    <button class="btn btn-primary text-white">Add Task</button>
+                    <Link to="/add-task">
+                        <button class="btn btn-primary text-white">Add Task</button>
+                    </Link>
                 </div>
             </div>
         </div>

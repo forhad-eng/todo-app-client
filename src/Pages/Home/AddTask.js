@@ -1,9 +1,13 @@
 import React from 'react'
+import { useAuthState } from 'react-firebase-hooks/auth'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import axiosPrivate from '../../api/axiosPrivate'
+import { auth } from '../../Firebase/firebase.init'
+import LoadingSpinner from '../Shared/LoadingSpinner'
 
 const AddTask = () => {
+    const [user, loading] = useAuthState(auth)
     const {
         register,
         handleSubmit,
@@ -11,12 +15,20 @@ const AddTask = () => {
         reset
     } = useForm()
 
-    const onSubmit = async taskInfo => {
-        const { data } = await axiosPrivate.post('http://localhost:5000/task', taskInfo)
-        if (data.success) {
-            toast.success(data.message, { toastId: 'success' })
+    if (loading) {
+        return <LoadingSpinner />
+    }
+
+    const onSubmit = async task => {
+        const email = user?.email
+        if (email) {
+            const taskInfo = { ...task, email }
+            const { data } = await axiosPrivate.post('http://localhost:5000/task', taskInfo)
+            if (data.success) {
+                toast.success(data.message, { toastId: 'success' })
+            }
+            reset()
         }
-        reset()
     }
 
     return (
