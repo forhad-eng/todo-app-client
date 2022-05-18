@@ -13,8 +13,13 @@ const Navbar = () => {
                 <Link to="/">Home</Link>
             </li>
             <li>
-                <Link to="/">Add Task</Link>
+                <Link to="/add-task">Add Task</Link>
             </li>
+            {user && (
+                <li>
+                    <Link to="/my-task">My Task</Link>
+                </li>
+            )}
             {user ? (
                 <li>
                     <button onClick={() => signOut(auth)}>Sign Out</button>
