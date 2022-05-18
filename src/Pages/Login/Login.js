@@ -20,13 +20,13 @@ const Login = () => {
     const location = useLocation()
     const from = location?.state?.from?.pathname || '/'
 
-    let errorMessage
-    if (eErr || gErr) {
-        errorMessage = <p className='text-red-500'>{eErr?.message || gErr?.message}</p>
-    }
-
     if (token) {
         navigate(from, { replace: true })
+    }
+
+    let errorMessage
+    if (eErr || gErr) {
+        errorMessage = <p className="text-red-500">{eErr?.message || gErr?.message}</p>
     }
 
     if (eLoading || gLoading) {
